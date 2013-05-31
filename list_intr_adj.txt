@@ -1,0 +1,2 @@
+#date of first day of year,intr
+20130101,0.055675

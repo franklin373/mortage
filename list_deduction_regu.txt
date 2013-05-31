@@ -1,0 +1,2 @@
+#mon,ratio of llf part
+201306,0.20
