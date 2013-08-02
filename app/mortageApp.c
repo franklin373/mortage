@@ -14,6 +14,20 @@ void caseMortageCircle()
 {
 	mortageCircle();
 }
+void caseTestCompSum(long double ammount,int terms)
+{
+	struct tag_interest intr;
+	long double intr_year;
+	long double sum;
+
+	intr_year=/*0.055675*/0.0655/**0.85*/;
+	INTR_init(&intr,intr_year);
+	printf("intr_year=%Lf,sizeof(time64_t)=%d\n",intr_year,sizeof(time64_t));
+	INTR_disp(&intr);
+	printf("ammount=%Lf,term=%d\n",ammount,terms);
+	sum=GS_mt2s(&intr,ammount,terms,30);
+	printf("<sum>=<%Lf>\n",sum);
+}
 void caseTest()
 {
 	struct tag_interest intr;
@@ -91,6 +105,7 @@ void usage(char *cmd)
 {
     fprintf(stderr,"usage:\n");
     fprintf(stderr,"          %s circle\n",cmd);
+    fprintf(stderr,"          %s testCompSum amount term\n",cmd);
     fprintf(stderr,"          %s test\n",cmd);
     exit(-1);
 }
@@ -101,7 +116,7 @@ void initGlobalContext()
 int main(int argc,char *argv[])
 {
 //    HANDLE fd1;
-//    int nRtn;
+    int nRtn;
 
     if(argc<2){
         usage(argv[0]);
@@ -113,6 +128,22 @@ int main(int argc,char *argv[])
 #endif
     if(strcmp(argv[1],"circle")==0){
         caseMortageCircle();
+    }else if(strcmp(argv[1],"testCompSum")==0){
+    	long double ammout;
+		int term;
+		
+    	if(argc!=4){
+			usage(argv[0]);
+    	}
+		nRtn=sscanf(argv[2],"%Lf",&ammout);
+		if(nRtn!=1){
+			usage(argv[0]);
+		}
+		nRtn=sscanf(argv[3],"%d",&term);
+		if(nRtn!=1){
+			usage(argv[0]);
+		}
+    	caseTestCompSum(ammout,term);
     }else if(strcmp(argv[1],"test")==0){
     	caseTest();
 //        case1();

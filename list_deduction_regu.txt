@@ -1,2 +1,2 @@
 #mon,ratio of llf part
-201306,0.20
+201308,0.50

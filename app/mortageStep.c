@@ -32,6 +32,7 @@ int roundTerms(long double ldTerms)
 int mortageStep(struct tagDebt *pDebt,EVENT_INTERFACE *pEvent)
 {
 	int days;
+	long double prevBalance;
 	
 	days=TM_sub_day_adj(pEvent->mei_time,pDebt->time);
 	if(days<0){
@@ -39,14 +40,15 @@ int mortageStep(struct tagDebt *pDebt,EVENT_INTERFACE *pEvent)
 
 		a=pEvent->mei_time;
 		b=pDebt->time;
-		printf("%d,<0x%llx,0x%llx>,%s,%s\n",pEvent->mei_type,pEvent->mei_time,pDebt->time,TM_to_asc_simple(pEvent->mei_time),TM_to_asc_simple(pDebt->time));
+		printf(FL("%d,<0x%llx,0x%llx>,%s,%s\n"),pEvent->mei_type,pEvent->mei_time,pDebt->time,TM_to_asc_simple(pEvent->mei_time),TM_to_asc_simple(pDebt->time));
 	}
 	ASSERT_MINE(days>=0);
 	pDebt->balance=INTR_pow_days(&(pDebt->intr),pDebt->balance,days);
 	pDebt->balancePayNone=INTR_pow_days(&(pDebt->intr),pDebt->balancePayNone,days);
 	pDebt->balancePayLlf=INTR_pow_days(&(pDebt->intr),pDebt->balancePayLlf,days);
 	pDebt->time=pEvent->mei_time;
-	printf("%s,%lld,%Lf",TM_to_asc_simple(pEvent->mei_time),pEvent->mei_time/86400,pDebt->balance);
+	printf("%s,%Lf,",TM_to_asc_simple(pEvent->mei_time),pDebt->balance);
+	prevBalance=pDebt->balance;
 	switch(pEvent->mei_type){
 	case ME_DEDUCTION_NO_ADJUST_AMOUNT:
 		{
@@ -98,6 +100,6 @@ int mortageStep(struct tagDebt *pDebt,EVENT_INTERFACE *pEvent)
 		ASSERT_MINE(0);
 		break;
 	}
-	printf("%Lf\n",pDebt->balance);
+	printf("%Lf,%Lf\n",pDebt->balance,prevBalance-pDebt->balance);
 	return 0;
 }

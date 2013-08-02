@@ -11,5 +11,6 @@ long double INTR_pow_days(struct tag_interest *pIntr,long double amount,int days
 long double INTR_pow_month(struct tag_interest *pIntr,long double amount);
 long double GS_t2m(struct tag_interest *pIntr,long double sum,int terms,int days_diff);
 long double GS_m2t(struct tag_interest *pIntr,long double sum,long double ammount,int days_diff);
+long double GS_mt2s(struct tag_interest *pIntr,long double ammount,int terms,int days_diff);
 
 #endif
